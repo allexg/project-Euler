@@ -15,15 +15,17 @@ def largest_number(nb_digits):
 def largest_pal_from_prod_of_2(nb_digits):
     factor1 = largest_number(nb_digits)
     lowerLimit = largest_number(nb_digits - 1)
+    max_pal = (0, 0, 0)
 
     while factor1 > lowerLimit:
         factor2 = factor1
         while factor2 > lowerLimit:
             prod = factor1 * factor2
-            if is_palindrome(prod):
-                return factor1, factor2, prod
+            if is_palindrome(prod) and prod > max_pal[2]:
+                max_pal = (factor1, factor2, prod)
             factor2 -= 1
         factor1 -= 1
+    return max_pal
 
 
 print largest_pal_from_prod_of_2(3)
