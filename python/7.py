@@ -19,7 +19,7 @@ def nthPrime(n):
         if is_prime(current):
             n -= 1
         current += 1
-    return current
+    return current - 1
 
 
 print nthPrime(10001)
