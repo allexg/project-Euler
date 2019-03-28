@@ -13,15 +13,14 @@ number = [int(d) for d in str(n)]
 def adjacent_digits(nb_digits):
     upper_limit = len(number) - nb_digits + 1
     max_prod = 0
-    adjacent_digits = []
+    consec_digits = []
     for i in range(upper_limit):
         current_slice = number[i:i + nb_digits:]
-        print current_slice
         prod = reduce(operator.mul, current_slice, 1)
         if prod > max_prod:
             max_prod = prod
-            adjacent_digits = current_slice
-    return max_prod, adjacent_digits
+            consec_digits = current_slice
+    return max_prod, consec_digits
 
 
 print adjacent_digits(13)
