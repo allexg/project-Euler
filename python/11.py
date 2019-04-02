@@ -31,49 +31,20 @@ def get_int_matrix_from_string(grid):
     return grid
 
 
-# search the greatest product on rows
-def horizontal_search(grid, nb_consec):
-    max_prod = 0
-    solution = []
-    upper_limit = len(grid[0]) - nb_consec + 1
-    for i in range(len(grid)):
-        for j in range(upper_limit):
-            current_slice = grid[i][j: j + nb_consec:]
-            prod = reduce(operator.mul, current_slice, 1)
-            if prod > max_prod:
-                max_prod = prod
-                solution = current_slice
-    return max_prod, solution
-
-# search the greatest product on columns
-def vertical_search(grid, nb_consec):
-    max_prod = 0
-    solution = []
-    upper_limit = len(grid[0]) - nb_consec + 1
-    for i in range(len(grid)):
-        for j in range(upper_limit):
-            current_slice = [grid[row_index][i] for row_index in range(j, j + nb_consec)]
-            prod = reduce(operator.mul, current_slice, 1)
-            if prod > max_prod:
-                max_prod = prod
-                solution = current_slice
-    return max_prod, solution
-
-
-# search every diagonal (orientated from right to left)
-def diagonals_search_from_right(grid, nb_consec):
-    max_prod = 0
-    solution = []
-    upper_limit = len(grid[0]) - nb_consec + 1
-    for i in range(nb_consec - 1, upper_limit):
-        i_copy = i
-        #descend with i, go down on diagonal
-
-
-# nb_consec = for how many consecutive adjacent numbers is the method looking to have the greatest product
-def largest_prod_consec(grid, nb_consec):
-    max_prod = 0
-
+# procedure: iterating every nb_consec * nb_consec square in the grid: for that square, compute the line, column and diagonals products, and get the max
+def largest_prod_consec(g, nb_consec):
+    rows, columns = len(g), len(g) - nb_consec + 1
+    maxp = 0
+    for i in range(rows):
+        for j in range(columns):
+            phv = max(g[i][j] * g[i][j+1] * g[i][j+2] * g[i][j+3],
+                      g[j][i] * g[j+1][i] * g[j+2][i] * g[j+3][i])
+            if i <= rows - nb_consec:
+                pd = max(g[i][j] * g[i+1][j+1] * g[i+2][j+2] * g[i+3][j+3],
+                         g[i][j+3] * g[i+1][j+2] * g[i+2][j+1] * g[i+3][j])
+            maxp = max(maxp, phv, pd)
+    return maxp
 
 
 grid = get_int_matrix_from_string(grid_string)
+print largest_prod_consec(grid, 4)
